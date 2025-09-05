@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .results-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #4361ee;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #3a56d4;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #4361ee;
+            font-weight: 700;
+        }
+        .prediction-card {
+            border-left: 4px solid #4361ee;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        .top-prediction {
+            background-color: #e9f5ff;
+            border-left: 4px solid #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Classification Results</h1>
+            <p>Here's what our AI model detected in your image</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="results-container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Uploaded Image</h3>
+                            <img src="data:image/png;base64,{{ img_data }}" class="img-fluid rounded" alt="Classification results">
+                        </div>
+                        <div class="col-md-6">
+                            <h3>Predictions</h3>
+                            {% for prediction in predictions %}
+                            <div class="prediction-card {% if loop.first %}top-prediction{% endif %}">
+                                <h5>{{ prediction.label }}</h5>
+                                <p class="mb-0">Confidence: <strong>{{ prediction.probability }}</strong></p>
+                            </div>
+                            {% endfor %}
+                            
+                            <div class="mt-4">
+                                <a href="{{ url_for('home') }}" class="btn btn-primary">Try Another Image</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h4>About the Model</h4>
+                    <p>This classification was performed using a ResNet50 model pre-trained on the ImageNet dataset. 
+                    The model can recognize up to 1000 different classes of objects with high accuracy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
